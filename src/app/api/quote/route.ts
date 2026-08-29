@@ -10,7 +10,7 @@ function text(form: FormData, key: string) {
   return String(form.get(key) || "").trim();
 }
 
-const DEFAULT_FROM = "Central Valley Junk <leo.a@example.org>";
+const QUOTE_FROM = "leo.a@example.org";
 
 function notifyAddress() {
   return (
@@ -21,15 +21,10 @@ function notifyAddress() {
   );
 }
 
-function quoteFromAddress() {
-  const configured = process.env.QUOTE_FROM_EMAIL?.trim() || "";
-  if (
-    configured &&
-    /@([a-z0-9-]+\.)*centralvalleyjunk\.com>?$/i.test(configured)
-  ) {
-    return configured;
-  }
-  return DEFAULT_FROM;
+function quoteWebhookUrl() {
+  const url = process.env.QUOTE_WEBHOOK_URL?.trim() || "";
+  if (!url || /example\.(org|com)|localhost/i.test(url)) return "";
+  return url;
 }
 
 export async function POST(request: NextRequest) {
@@ -66,20 +61,13 @@ export async function POST(request: NextRequest) {
     payload[key] = text(form, key);
   }
 
-  const webhook = process.env.QUOTE_WEBHOOK_URL?.trim();
+  const webhook = quoteWebhookUrl();
   const notifyEmail = notifyAddress();
   const resendKey = process.env.RESEND_API_KEY?.trim();
-  const fromEmail = quoteFromAddress();
+  const fromEmail = QUOTE_FROM;
 
   try {
-    if (webhook) {
-      const response = await fetch(webhook, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok) throw new Error("Quote webhook failed");
-    } else if (resendKey && notifyEmail) {
+    if (resendKey && notifyEmail) {
       const customerEmail = text(form, "email");
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -114,12 +102,21 @@ export async function POST(request: NextRequest) {
         let resendMessage = "Email delivery failed";
         try {
           const parsed = JSON.parse(detail) as { message?: string };
-          if (parsed.message) resendMessage = parsed.message;
+          if (parsed.message) {
+            resendMessage = `${parsed.message} (sending from ${fromEmail} to ${notifyEmail})`;
+          }
         } catch {
           /* keep default */
         }
         return NextResponse.json({ ok: false, error: resendMessage }, { status: 502 });
       }
+    } else if (webhook) {
+      const response = await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error("Quote webhook failed");
     } else if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
         {
