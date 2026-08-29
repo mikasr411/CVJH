@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
   const notifyEmail = notifyAddress();
   const resendKey = process.env.RESEND_API_KEY?.trim();
   const fromEmail =
-    process.env.QUOTE_FROM_EMAIL?.trim() || "Central Valley Junk <beth.t@example.com>";
+    process.env.QUOTE_FROM_EMAIL?.trim() ||
+    "Central Valley Junk <leo.a@example.org>";
 
   try {
     if (webhook) {
