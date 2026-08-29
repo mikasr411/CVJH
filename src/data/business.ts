@@ -104,7 +104,9 @@ export const business: Business = {
 
 export const site = {
   url: (
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://centralvalleyjunk.com"
+    process.env.SITE_URL?.trim() ||
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    "https://centralvalleyjunk.com"
   ).replace(/\/$/, ""),
   defaultTitle: "Junk Removal Fresno CA | Central Valley Junk & Hauling",
   defaultDescription:
