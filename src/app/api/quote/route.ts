@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ATTRIBUTION_KEYS } from "@/lib/attribution";
+import { business } from "@/data/business";
 
 export const runtime = "nodejs";
 
@@ -7,6 +8,15 @@ const REQUIRED = ["name", "phone", "city", "description"] as const;
 
 function text(form: FormData, key: string) {
   return String(form.get(key) || "").trim();
+}
+
+function notifyAddress() {
+  return (
+    process.env.QUOTE_NOTIFY_EMAIL?.trim() ||
+    process.env.CONTACT_EMAIL?.trim() ||
+    business.email ||
+    ""
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -42,8 +52,10 @@ export async function POST(request: NextRequest) {
   }
 
   const webhook = process.env.QUOTE_WEBHOOK_URL;
-  const notifyEmail = process.env.QUOTE_NOTIFY_EMAIL;
+  const notifyEmail = notifyAddress();
   const resendKey = process.env.RESEND_API_KEY;
+  const fromEmail =
+    process.env.QUOTE_FROM_EMAIL?.trim() || "Central Valley Junk <beth.t@example.com>";
 
   try {
     if (webhook) {
@@ -63,18 +75,35 @@ export async function POST(request: NextRequest) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "quotes@centralvalleyjunk.com",
+          from: fromEmail,
           to: [notifyEmail],
           subject: `New junk removal quote — ${payload.city}`,
-          text: JSON.stringify(payload, null, 2),
+          text: [
+            `Name: ${payload.name}`,
+            `Phone: ${payload.phone}`,
+            `Email: ${payload.email || "—"}`,
+            `Address: ${payload.address || "—"}`,
+            `City: ${payload.city}`,
+            `Service: ${payload.serviceType || "—"}`,
+            `Job type: ${payload.jobType || "—"}`,
+            `Preferred date: ${payload.preferredDate || "—"}`,
+            `How they heard: ${payload.heardAbout || "—"}`,
+            "",
+            "What needs to be removed:",
+            payload.description,
+          ].join("\n"),
         }),
       });
-      if (!response.ok) throw new Error("Email delivery failed");
+      if (!response.ok) {
+        const detail = await response.text();
+        console.error("Resend error", detail);
+        throw new Error("Email delivery failed");
+      }
     } else if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
         {
           ok: false,
-          error: "Quote delivery is not connected yet. Please try again later or use another contact method.",
+          error: "Quote delivery is not connected yet. Call or text 559-238-5828.",
         },
         { status: 503 },
       );

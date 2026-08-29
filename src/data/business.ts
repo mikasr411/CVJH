@@ -68,7 +68,7 @@ export const business: Business = {
   phone: "+15592385828",
   phoneDisplay: "559-238-5828",
   smsPhone: "+15592385828",
-  email: null,
+  email: "centralvalleyjunkhauling@gmail.com",
   addressLine1: null,
   addressLine2: null,
   city: null,
