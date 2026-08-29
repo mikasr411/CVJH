@@ -18,7 +18,7 @@ npm run dev
 
 See `.env.example`.
 
-- `NEXT_PUBLIC_SITE_URL` — canonical site URL
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL (`https://centralvalleyjunk.com` in production)
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID` — Google Analytics 4
 - `NEXT_PUBLIC_GOOGLE_ADS_ID` — Google Ads
 - `NEXT_PUBLIC_GOOGLE_ADS_QUOTE_CONVERSION_LABEL` — quote conversion label
