@@ -29,7 +29,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const photos = form.getAll("photos").filter((item): item is File => item instanceof File && item.size > 0);
+  const photos = form
+    .getAll("photos")
+    .filter((item): item is File => item instanceof File && item.size > 0);
 
   const payload: Record<string, unknown> = {
     name: text(form, "name"),
@@ -51,9 +53,9 @@ export async function POST(request: NextRequest) {
     payload[key] = text(form, key);
   }
 
-  const webhook = process.env.QUOTE_WEBHOOK_URL;
+  const webhook = process.env.QUOTE_WEBHOOK_URL?.trim();
   const notifyEmail = notifyAddress();
-  const resendKey = process.env.RESEND_API_KEY;
+  const resendKey = process.env.RESEND_API_KEY?.trim();
   const fromEmail =
     process.env.QUOTE_FROM_EMAIL?.trim() || "Central Valley Junk <beth.t@example.com>";
 
@@ -64,10 +66,9 @@ export async function POST(request: NextRequest) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) {
-        throw new Error("Quote webhook failed");
-      }
+      if (!response.ok) throw new Error("Quote webhook failed");
     } else if (resendKey && notifyEmail) {
+      const customerEmail = text(form, "email");
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -77,6 +78,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           from: fromEmail,
           to: [notifyEmail],
+          reply_to: customerEmail || undefined,
           subject: `New junk removal quote — ${payload.city}`,
           text: [
             `Name: ${payload.name}`,
@@ -97,7 +99,14 @@ export async function POST(request: NextRequest) {
       if (!response.ok) {
         const detail = await response.text();
         console.error("Resend error", detail);
-        throw new Error("Email delivery failed");
+        let resendMessage = "Email delivery failed";
+        try {
+          const parsed = JSON.parse(detail) as { message?: string };
+          if (parsed.message) resendMessage = parsed.message;
+        } catch {
+          /* keep default */
+        }
+        return NextResponse.json({ ok: false, error: resendMessage }, { status: 502 });
       }
     } else if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
