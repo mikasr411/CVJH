@@ -7,19 +7,26 @@ import { business, site } from "@/data/business";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { localBusinessSchema } from "@/lib/schema";
 import type { Metadata } from "next";
-import { Oswald, Source_Sans_3 } from "next/font/google";
+import localFont from "next/font/local";
+import type { ReactNode } from "react";
 import "./globals.css";
 
-const display = Oswald({
-  subsets: ["latin"],
+const display = localFont({
+  src: [
+    { path: "../fonts/oswald-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/oswald-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-display",
-  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
-const body = Source_Sans_3({
-  subsets: ["latin"],
+const body = localFont({
+  src: [
+    { path: "../fonts/source-sans-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/source-sans-600.woff2", weight: "600", style: "normal" },
+  ],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +53,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} h-full`}>
       <body className="min-h-full bg-white font-sans text-ink antialiased">

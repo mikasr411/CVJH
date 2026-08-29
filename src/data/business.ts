@@ -103,10 +103,9 @@ export const business: Business = {
 };
 
 export const site = {
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(
-    /\/$/,
-    "",
-  ),
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000"
+  ).replace(/\/$/, ""),
   defaultTitle: "Junk Removal Fresno CA | Central Valley Junk & Hauling",
   defaultDescription:
     "Need junk gone? Central Valley Junk & Hauling provides professional junk removal, cleanouts and hauling throughout Fresno and the Central Valley. Request a free quote today.",
