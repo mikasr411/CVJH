@@ -109,4 +109,5 @@ export const site = {
   defaultTitle: "Junk Removal Fresno CA | Central Valley Junk & Hauling",
   defaultDescription:
     "Need junk gone? Central Valley Junk & Hauling provides professional junk removal, cleanouts and hauling throughout Fresno and the Central Valley. Request a free quote today.",
+  googleSiteVerification: "lZNLNMQg2qR_fL-MNxtH0gbn4vxOEY9CPMVCSbZA_LM",
 } as const;

@@ -51,6 +51,9 @@ export const metadata: Metadata = {
     description: site.defaultDescription,
   },
   robots: { index: true, follow: true },
+  verification: {
+    google: site.googleSiteVerification,
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
