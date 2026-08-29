@@ -10,6 +10,8 @@ function text(form: FormData, key: string) {
   return String(form.get(key) || "").trim();
 }
 
+const DEFAULT_FROM = "Central Valley Junk <leo.a@example.org>";
+
 function notifyAddress() {
   return (
     process.env.QUOTE_NOTIFY_EMAIL?.trim() ||
@@ -17,6 +19,17 @@ function notifyAddress() {
     business.email ||
     ""
   );
+}
+
+function quoteFromAddress() {
+  const configured = process.env.QUOTE_FROM_EMAIL?.trim() || "";
+  if (
+    configured &&
+    /@([a-z0-9-]+\.)*centralvalleyjunk\.com>?$/i.test(configured)
+  ) {
+    return configured;
+  }
+  return DEFAULT_FROM;
 }
 
 export async function POST(request: NextRequest) {
@@ -56,9 +69,7 @@ export async function POST(request: NextRequest) {
   const webhook = process.env.QUOTE_WEBHOOK_URL?.trim();
   const notifyEmail = notifyAddress();
   const resendKey = process.env.RESEND_API_KEY?.trim();
-  const fromEmail =
-    process.env.QUOTE_FROM_EMAIL?.trim() ||
-    "Central Valley Junk <leo.a@example.org>";
+  const fromEmail = quoteFromAddress();
 
   try {
     if (webhook) {
