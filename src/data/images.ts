@@ -19,7 +19,7 @@ export const images = {
   hero: {
     id: "hero-crew-loading",
     src: "/images/hero/junk-removal-truck-trailer-fresno.jpg",
-    alt: "Junk removal truck and loaded trailer hauling debris in Fresno, CA",
+    alt: "Loaded junk removal trailer hitched to a truck after a hauling job in Fresno, CA",
     todo: "Replace with an action photo of the crew loading furniture or junk into the truck/trailer.",
   },
   beforeAfter: [
