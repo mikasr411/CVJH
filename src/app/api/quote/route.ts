@@ -10,7 +10,7 @@ function text(form: FormData, key: string) {
   return String(form.get(key) || "").trim();
 }
 
-const QUOTE_FROM = "Central Valley Junk <hello@centralvalleyjunk.com>";
+const QUOTE_FROM = "hello@centralvalleyjunk.com";
 
 function notifyAddress() {
   return (
