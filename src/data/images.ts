@@ -18,8 +18,8 @@ export type BeforeAfterPair = {
 export const images = {
   hero: {
     id: "hero-crew-loading",
-    src: "/images/hero/crew-loading-junk.jpg",
-    alt: "Central Valley Junk & Hauling truck and trailer loaded with junk",
+    src: "/images/hero/junk-removal-truck-trailer-fresno.jpg",
+    alt: "Junk removal truck and loaded trailer hauling debris in Fresno, CA",
     todo: "Replace with an action photo of the crew loading furniture or junk into the truck/trailer.",
   },
   beforeAfter: [
