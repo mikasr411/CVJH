@@ -1,23 +1,26 @@
 export type ImageSlot = {
-  id: string;
   src: string | null;
   alt: string;
   todo: string;
-  status: "placeholder" | "ready";
+};
+
+export type BeforeAfterPair = {
+  id: string;
+  label: string;
+  before: ImageSlot;
+  after: ImageSlot;
 };
 
 /**
- * Real company photography should replace these slots.
- * When a file exists in /public, set src and status: "ready".
- * Never use generic stock photos and label them as the crew.
+ * Drop real job photos in /public/images, then set `src` to that path.
+ * Example: src: "/images/before-after/garage-before.jpg"
  */
 export const images = {
   hero: {
     id: "hero-crew-loading",
-    src: null,
-    alt: "Central Valley Junk & Hauling crew loading junk into the company trailer",
+    src: "/images/hero/crew-loading-junk.jpg",
+    alt: "Central Valley Junk & Hauling truck and trailer loaded with junk",
     todo: "Replace with an action photo of the crew loading furniture or junk into the truck/trailer.",
-    status: "placeholder",
   },
   beforeAfter: [
     {
@@ -76,21 +79,19 @@ export const images = {
         todo: "Add the matching after photo.",
       },
     },
-  ],
+  ] satisfies BeforeAfterPair[],
   crew: {
     id: "crew-portrait",
-    src: null,
+    src: null as string | null,
     alt: "Central Valley Junk & Hauling crew",
     todo: "Add a real photo of the owner or crew. Action shots beat posed arms-crossed portraits.",
-    status: "placeholder",
   },
   jobs: {
     trailerFull: {
       id: "job-full-trailer",
-      src: null,
+      src: null as string | null,
       alt: "Loaded junk removal trailer",
       todo: "Add a photo of a full trailer or truck after a job.",
-      status: "placeholder",
     },
   },
-} as const;
+};

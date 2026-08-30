@@ -1,2 +1,2 @@
-TODO: Replace with a real action photo of the Central Valley Junk & Hauling crew loading junk into the company trailer or truck.
-Do not use a posed arms-crossed stock portrait.
+Hero photo: crew-loading-junk.jpg
+To replace it, drop a new file here and update src in src/data/images.ts.

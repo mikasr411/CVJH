@@ -2,6 +2,7 @@ import { CallButton, QuoteButton } from "@/components/conversion/CtaButtons";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 import { images } from "@/data/images";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 const trustPoints = ["Upfront Pricing", "Full-Service Hauling", "Locally Owned"];
 
@@ -41,12 +42,25 @@ export function Hero() {
             ))}
           </ul>
         </div>
-        <PhotoPlaceholder
-          label="Crew loading junk into the trailer"
-          todo={images.hero.todo}
-          aspect="photo"
-          className="min-h-[280px] lg:min-h-[460px]"
-        />
+        {images.hero.src ? (
+          <div className="relative aspect-[4/3] min-h-[280px] overflow-hidden rounded-lg lg:min-h-[460px]">
+            <Image
+              src={images.hero.src}
+              alt={images.hero.alt}
+              fill
+              priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover object-center"
+            />
+          </div>
+        ) : (
+          <PhotoPlaceholder
+            label="Crew loading junk into the trailer"
+            todo={images.hero.todo}
+            aspect="photo"
+            className="min-h-[280px] lg:min-h-[460px]"
+          />
+        )}
       </div>
     </section>
   );
