@@ -1,7 +1,15 @@
-TODO: Add matching before and after photos for garage, property, yard, and furniture jobs.
-File names can follow:
-  garage-before.jpg / garage-after.jpg
-  property-before.jpg / property-after.jpg
-  yard-before.jpg / yard-after.jpg
-  furniture-before.jpg / furniture-after.jpg
-Then set src and status: "ready" in src/data/images.ts.
+Put matching before/after photos here, then point to them in src/data/images.ts.
+
+Current:
+  junk-removal-property-cleanup-before-fresno.jpg
+  junk-removal-property-cleanup-after-fresno.jpg
+
+Suggested names for more jobs:
+  junk-removal-garage-cleanout-before-fresno.jpg
+  junk-removal-garage-cleanout-after-fresno.jpg
+  junk-removal-yard-cleanup-before-fresno.jpg
+  junk-removal-yard-cleanup-after-fresno.jpg
+  junk-removal-furniture-removal-before-fresno.jpg
+  junk-removal-furniture-removal-after-fresno.jpg
+
+Shoot the after from the same angle as the before.

@@ -7,6 +7,7 @@ export type ImageSlot = {
 export type BeforeAfterPair = {
   id: string;
   label: string;
+  aspect?: "landscape" | "portrait";
   before: ImageSlot;
   after: ImageSlot;
 };
@@ -24,6 +25,21 @@ export const images = {
   },
   beforeAfter: [
     {
+      id: "ba-property",
+      label: "Property Cleanout",
+      aspect: "portrait",
+      before: {
+        src: "/images/before-after/junk-removal-property-cleanup-before-fresno.jpg",
+        alt: "Cluttered Fresno side yard with grill and debris before junk removal",
+        todo: "Add a before photo of a property cleanout.",
+      },
+      after: {
+        src: "/images/before-after/junk-removal-property-cleanup-after-fresno.jpg",
+        alt: "Cleared Fresno side yard after junk removal and property cleanup",
+        todo: "Add the matching after photo.",
+      },
+    },
+    {
       id: "ba-garage",
       label: "Garage Cleanout",
       before: {
@@ -35,20 +51,6 @@ export const images = {
         src: null,
         alt: "Cleared garage after junk removal",
         todo: "Add a matching after photo of the same garage emptied.",
-      },
-    },
-    {
-      id: "ba-property",
-      label: "Property Cleanout",
-      before: {
-        src: null,
-        alt: "Property piled with junk before hauling",
-        todo: "Add a before photo of a property cleanout.",
-      },
-      after: {
-        src: null,
-        alt: "Property cleared after junk hauling",
-        todo: "Add the matching after photo.",
       },
     },
     {
