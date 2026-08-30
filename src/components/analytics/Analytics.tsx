@@ -3,7 +3,7 @@ import Script from "next/script";
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 const pixelId =
-  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1078980551192193";
+  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1398668469068279";
 
 export function Analytics() {
   const gtagId = gaId || adsId;
