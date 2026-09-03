@@ -160,13 +160,13 @@ export function MobileFunnel() {
         ) : null}
 
         {step === "start" ? (
-          <div className="flex flex-1 flex-col pb-8">
-            <div className="relative aspect-[9/16] overflow-hidden bg-black">
+          <div className="flex flex-1 flex-col">
+            <div className="relative h-[34svh] min-h-[200px] max-h-[280px] shrink-0 overflow-hidden bg-black">
               {videoSrc && !videoFailed ? (
                 <>
                   <video
                     ref={videoRef}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-top"
                     poster={poster}
                     autoPlay
                     muted={muted}
@@ -188,7 +188,7 @@ export function MobileFunnel() {
                           void player.play();
                         }
                       }}
-                      className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/75 px-4 py-2 font-display text-xs uppercase tracking-[0.12em] text-white"
+                      className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/75 px-4 py-2 font-display text-xs uppercase tracking-[0.12em] text-white"
                     >
                       Tap for sound
                     </button>
@@ -201,28 +201,27 @@ export function MobileFunnel() {
                   fill
                   priority
                   sizes="430px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               ) : null}
             </div>
 
-            <div className="px-4 pt-5">
+            <div className="px-4 pt-3 pb-6">
               <p className="font-display text-xs uppercase tracking-[0.2em] text-brand-bright">
                 Fresno junk removal
               </p>
-              <h1 className="mt-2 font-display text-4xl uppercase leading-[0.9]">
+              <h1 className="mt-1 font-display text-3xl uppercase leading-[0.9]">
                 Send a photo.
                 <span className="block text-brand-bright">Get {OFFER}.</span>
               </h1>
-              <p className="mt-3 text-sm text-white/75">
-                Upload a picture of the junk. We quote from the photo. You approve the price before
-                we load.
+              <p className="mt-2 text-sm text-white/75">
+                Upload a picture of the junk. We quote from the photo.
               </p>
 
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="mt-5 flex min-h-16 w-full items-center justify-center gap-3 rounded-md border-2 border-dashed border-white/40 bg-white/5 px-4 font-display text-base uppercase tracking-[0.08em]"
+                className="mt-4 flex min-h-14 w-full items-center justify-center gap-3 rounded-md border-2 border-dashed border-white/40 bg-white/5 px-4 font-display text-base uppercase tracking-[0.08em]"
               >
                 <Camera className="h-6 w-6 text-brand-bright" aria-hidden="true" />
                 {files.length ? "Add more photos" : "Upload a picture"}
