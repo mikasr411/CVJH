@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
     description: text(form, "description"),
     preferredDate: text(form, "preferredDate"),
     heardAbout: text(form, "heardAbout"),
+    offer: text(form, "offer"),
     photoCount: photos.length,
     photoNames: photos.map((file) => file.name),
     submittedAt: new Date().toISOString(),
@@ -79,7 +80,9 @@ export async function POST(request: NextRequest) {
           from: fromEmail,
           to: [notifyEmail],
           reply_to: customerEmail || undefined,
-          subject: `New junk removal quote — ${payload.city}`,
+          subject: payload.offer
+            ? `New junk removal quote (${payload.offer}) — ${payload.city}`
+            : `New junk removal quote — ${payload.city}`,
           text: [
             `Name: ${payload.name}`,
             `Phone: ${payload.phone}`,
@@ -90,6 +93,7 @@ export async function POST(request: NextRequest) {
             `Job type: ${payload.jobType || "—"}`,
             `Preferred date: ${payload.preferredDate || "—"}`,
             `How they heard: ${payload.heardAbout || "—"}`,
+            `Offer: ${payload.offer || "—"}`,
             "",
             "What needs to be removed:",
             payload.description,

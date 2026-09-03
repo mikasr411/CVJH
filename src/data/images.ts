@@ -96,4 +96,9 @@ export const images = {
       todo: "Add a photo of a full trailer or truck after a job.",
     },
   },
+  funnel: {
+    videoSrc: null as string | null,
+    posterSrc: "/images/hero/junk-removal-truck-trailer-fresno.jpg",
+    posterAlt: "Junk removal truck and loaded trailer in Fresno, CA",
+  },
 };

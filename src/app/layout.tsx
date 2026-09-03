@@ -1,5 +1,6 @@
 import { Analytics } from "@/components/analytics/Analytics";
 import { AttributionCapture } from "@/components/analytics/AttributionCapture";
+import { AppChrome } from "@/components/layout/AppChrome";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileCTA } from "@/components/layout/MobileCTA";
@@ -66,12 +67,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Analytics />
         <AttributionCapture />
         <JsonLd data={localBusinessSchema()} />
-        <Header />
-        <main id="main" className="pb-24 md:pb-0">
+        <AppChrome header={<Header />} footer={<Footer />} mobileCta={<MobileCTA />}>
           {children}
-        </main>
-        <Footer />
-        <MobileCTA />
+        </AppChrome>
       </body>
     </html>
   );

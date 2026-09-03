@@ -5,7 +5,10 @@ export type AnalyticsEvent =
   | "text_click"
   | "photo_quote_click"
   | "service_page_view"
-  | "commercial_quote_click";
+  | "commercial_quote_click"
+  | "funnel_upload"
+  | "funnel_next"
+  | "funnel_offer_click";
 
 type EventParams = Record<string, string | number | boolean | undefined>;
 
@@ -37,6 +40,7 @@ export function track(event: AnalyticsEvent, params: EventParams = {}) {
     text_click: "Contact",
     photo_quote_click: "Contact",
     commercial_quote_click: "Lead",
+    funnel_offer_click: "Lead",
   };
   const metaEvent = metaMap[event];
   if (metaEvent) window.fbq?.("track", metaEvent, params);
