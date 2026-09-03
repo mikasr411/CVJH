@@ -161,12 +161,12 @@ export function MobileFunnel() {
 
         {step === "start" ? (
           <div className="flex flex-1 flex-col">
-            <div className="relative h-[34svh] min-h-[200px] max-h-[280px] shrink-0 overflow-hidden bg-black">
+            <div className="relative aspect-[9/14.4] shrink-0 overflow-hidden bg-black">
               {videoSrc && !videoFailed ? (
                 <>
                   <video
                     ref={videoRef}
-                    className="h-full w-full object-cover object-top"
+                    className="h-full w-full object-cover object-bottom"
                     poster={poster}
                     autoPlay
                     muted={muted}
@@ -201,7 +201,7 @@ export function MobileFunnel() {
                   fill
                   priority
                   sizes="430px"
-                  className="object-cover object-top"
+                  className="object-cover object-bottom"
                 />
               ) : null}
             </div>
