@@ -27,6 +27,8 @@ export function MobileFunnel() {
   const [started, setStarted] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
   const cities = listedLocations();
   const textHref = smsHref(photoQuoteSmsBody);
   const poster = images.funnel.posterSrc;
@@ -159,20 +161,39 @@ export function MobileFunnel() {
 
         {step === "start" ? (
           <div className="flex flex-1 flex-col pb-8">
-            <div className="relative aspect-[4/5] overflow-hidden bg-black sm:aspect-video">
+            <div className="relative aspect-[9/16] overflow-hidden bg-black">
               {videoSrc && !videoFailed ? (
-                <video
-                  className="h-full w-full object-cover"
-                  poster={poster}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  controls
-                  onError={() => setVideoFailed(true)}
-                >
-                  <source src={videoSrc} type="video/mp4" />
-                </video>
+                <>
+                  <video
+                    ref={videoRef}
+                    className="h-full w-full object-cover"
+                    poster={poster}
+                    autoPlay
+                    muted={muted}
+                    playsInline
+                    controls
+                    preload="auto"
+                    onError={() => setVideoFailed(true)}
+                  >
+                    <source src={videoSrc} type="video/mp4" />
+                  </video>
+                  {muted ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMuted(false);
+                        const player = videoRef.current;
+                        if (player) {
+                          player.muted = false;
+                          void player.play();
+                        }
+                      }}
+                      className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/75 px-4 py-2 font-display text-xs uppercase tracking-[0.12em] text-white"
+                    >
+                      Tap for sound
+                    </button>
+                  ) : null}
+                </>
               ) : poster ? (
                 <Image
                   src={poster}

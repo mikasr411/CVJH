@@ -97,8 +97,8 @@ export const images = {
     },
   },
   funnel: {
-    videoSrc: null as string | null,
-    posterSrc: "/images/hero/junk-removal-truck-trailer-fresno.jpg",
-    posterAlt: "Junk removal truck and loaded trailer in Fresno, CA",
+    videoSrc: "/videos/junk-removal-fresno-vsl.mp4" as string | null,
+    posterSrc: "/videos/junk-removal-fresno-vsl-poster.jpg",
+    posterAlt: "Central Valley Junk & Hauling junk removal video",
   },
 };
