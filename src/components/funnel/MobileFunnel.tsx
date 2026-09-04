@@ -46,12 +46,21 @@ export function MobileFunnel() {
   }
 
   function setSelectedFiles(next: File[]) {
-    const tooBig = next.filter((file) => file.size > MAX_FILE_MB * 1024 * 1024);
+    const imagesOnly = next.filter(
+      (file) =>
+        file.type.startsWith("image/") ||
+        /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name),
+    );
+    if (!imagesOnly.length) {
+      setError("Please choose a photo (JPG, PNG, or HEIC).");
+      return;
+    }
+    const tooBig = imagesOnly.filter((file) => file.size > MAX_FILE_MB * 1024 * 1024);
     if (tooBig.length) {
       setError(`Please keep photos under ${MAX_FILE_MB}MB each.`);
       return;
     }
-    const combined = [...files, ...next].slice(0, MAX_FILES);
+    const combined = [...files, ...imagesOnly].slice(0, MAX_FILES);
     previews.forEach((url) => URL.revokeObjectURL(url));
     setError("");
     setFiles(combined);
@@ -124,7 +133,6 @@ export function MobileFunnel() {
         <input
           ref={fileRef}
           type="file"
-          accept="image/*"
           multiple
           className="sr-only"
           onChange={(event) => {
@@ -366,7 +374,8 @@ export function MobileFunnel() {
               <span className="text-sm font-medium">Email</span>
               <input
                 name="email"
-                type="email"
+                type="text"
+                inputMode="email"
                 autoComplete="email"
                 className="mt-1 w-full rounded-md border border-line bg-white px-3 py-3 text-base"
                 onFocus={markStarted}
@@ -381,6 +390,7 @@ export function MobileFunnel() {
 
             <button
               type="submit"
+              formNoValidate
               disabled={status === "submitting"}
               className="mt-5 mb-8 inline-flex min-h-14 w-full items-center justify-center rounded-md bg-brand font-display text-base uppercase tracking-[0.08em] text-white disabled:opacity-70"
             >
