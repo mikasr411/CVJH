@@ -40,6 +40,12 @@ async function photoAttachments(photos: File[]) {
   return attachments;
 }
 
+function quoteWebhookUrl() {
+  const url = process.env.QUOTE_WEBHOOK_URL?.trim() || "";
+  if (!url || /example\.(org|com)|localhost/i.test(url)) return "";
+  return url;
+}
+
 export async function POST(request: NextRequest) {
   const form = await request.formData();
   const missing = REQUIRED.filter((key) => !text(form, key));
