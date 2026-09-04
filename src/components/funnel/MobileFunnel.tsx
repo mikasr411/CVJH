@@ -346,11 +346,12 @@ export function MobileFunnel() {
               />
             </label>
             <label className="mt-3 block">
-              <span className="text-sm font-medium">Service address *</span>
+              <span className="text-sm font-medium">Address *</span>
               <input
                 name="address"
                 required
                 autoComplete="street-address"
+                placeholder="123 Main St"
                 className="mt-1 w-full rounded-md border border-line bg-white px-3 py-3 text-base"
                 onFocus={markStarted}
               />
@@ -361,6 +362,7 @@ export function MobileFunnel() {
                 name="city"
                 required
                 list="funnel-cities"
+                placeholder="Fresno"
                 className="mt-1 w-full rounded-md border border-line bg-white px-3 py-3 text-base"
                 onFocus={markStarted}
               />

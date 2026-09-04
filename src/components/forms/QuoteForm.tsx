@@ -123,8 +123,8 @@ export function QuoteForm({ compact = false }: { compact?: boolean }) {
           <input name="email" type="text" inputMode="email" autoComplete="email" className={fieldClass} onFocus={markStarted} />
         </label>
         <label className="block">
-          <span className="text-sm font-medium">Service address</span>
-          <input name="address" autoComplete="street-address" className={fieldClass} onFocus={markStarted} />
+          <span className="text-sm font-medium">Address</span>
+          <input name="address" autoComplete="street-address" placeholder="123 Main St" className={fieldClass} onFocus={markStarted} />
         </label>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
