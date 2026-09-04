@@ -1,3 +1,4 @@
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import Script from "next/script";
 
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -9,6 +10,7 @@ export function Analytics() {
   const gtagId = gaId || adsId;
   return (
     <>
+      <VercelAnalytics />
       {gtagId ? (
         <>
           <Script

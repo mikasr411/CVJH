@@ -28,7 +28,7 @@ export default function PrivacyPage() {
         </p>
         <h2 className="font-display text-2xl uppercase text-ink">Analytics and ads</h2>
         <p>
-          If analytics or ad pixels are configured, they may collect device and page-view information according to Google and Meta policies.
+          If analytics or ad pixels are configured, they may collect device and page-view information according to Google, Meta, and Vercel policies.
         </p>
         <h2 className="font-display text-2xl uppercase text-ink">Contact</h2>
         <p>

@@ -1,3 +1,5 @@
+import { track as vercelTrack } from "@vercel/analytics";
+
 export type AnalyticsEvent =
   | "quote_form_started"
   | "quote_form_submitted"
@@ -23,6 +25,7 @@ declare global {
 export function track(event: AnalyticsEvent, params: EventParams = {}) {
   if (typeof window === "undefined") return;
 
+  vercelTrack(event, params);
   window.gtag?.("event", event, params);
 
   const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
