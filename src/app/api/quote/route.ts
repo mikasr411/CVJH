@@ -21,10 +21,23 @@ function notifyAddress() {
   );
 }
 
-function quoteWebhookUrl() {
-  const url = process.env.QUOTE_WEBHOOK_URL?.trim() || "";
-  if (!url || /example\.(org|com)|localhost/i.test(url)) return "";
-  return url;
+async function photoAttachments(photos: File[]) {
+  const maxBytes = 30 * 1024 * 1024;
+  const attachments: { filename: string; content: string }[] = [];
+  let used = 0;
+
+  for (const [index, file] of photos.entries()) {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    if (used + buffer.length > maxBytes) break;
+    used += buffer.length;
+    const safeName = (file.name || `photo-${index + 1}.jpg`).replace(/[^\w.\-]+/g, "_");
+    attachments.push({
+      filename: safeName,
+      content: buffer.toString("base64"),
+    });
+  }
+
+  return attachments;
 }
 
 export async function POST(request: NextRequest) {
@@ -70,6 +83,8 @@ export async function POST(request: NextRequest) {
   try {
     if (resendKey && notifyEmail) {
       const customerEmail = text(form, "email");
+      const attachments = await photoAttachments(photos);
+      const skipped = photos.length - attachments.length;
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -94,10 +109,12 @@ export async function POST(request: NextRequest) {
             `Preferred date: ${payload.preferredDate || "—"}`,
             `How they heard: ${payload.heardAbout || "—"}`,
             `Offer: ${payload.offer || "—"}`,
+            `Photos attached: ${attachments.length}${skipped ? ` (${skipped} too large to attach)` : ""}`,
             "",
             "What needs to be removed:",
             payload.description,
           ].join("\n"),
+          attachments: attachments.length ? attachments : undefined,
         }),
       });
       if (!response.ok) {

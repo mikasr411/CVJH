@@ -95,12 +95,13 @@ export function MobileFunnel() {
 
     const name = String(data.get("name") || "").trim();
     const phone = String(data.get("phone") || "").trim();
+    const address = String(data.get("address") || "").trim();
     const city = String(data.get("city") || "").trim();
     const description = String(data.get("description") || "").trim();
 
-    if (!name || !phone || !city || !description) {
+    if (!name || !phone || !address || !city || !description) {
       setStatus("error");
-      setError("Name, phone, city, and a short description are required.");
+      setError("Name, phone, address, city, and a short description are required.");
       return;
     }
 
@@ -300,7 +301,7 @@ export function MobileFunnel() {
               Send your photos and info
             </h1>
             <p className="mt-2 text-sm text-ink-soft">
-              {OFFER} is noted on this request. Name, phone, city, and what to haul are required.
+              {OFFER} is noted on this request. Name, phone, address, city, and what to haul are required.
             </p>
 
             {previewItems.length ? (
@@ -340,6 +341,16 @@ export function MobileFunnel() {
                 type="tel"
                 required
                 autoComplete="tel"
+                className="mt-1 w-full rounded-md border border-line bg-white px-3 py-3 text-base"
+                onFocus={markStarted}
+              />
+            </label>
+            <label className="mt-3 block">
+              <span className="text-sm font-medium">Service address *</span>
+              <input
+                name="address"
+                required
+                autoComplete="street-address"
                 className="mt-1 w-full rounded-md border border-line bg-white px-3 py-3 text-base"
                 onFocus={markStarted}
               />

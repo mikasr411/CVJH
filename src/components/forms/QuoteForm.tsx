@@ -120,7 +120,7 @@ export function QuoteForm({ compact = false }: { compact?: boolean }) {
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
           <span className="text-sm font-medium">Email</span>
-          <input name="email" type="email" autoComplete="email" className={fieldClass} onFocus={markStarted} />
+          <input name="email" type="text" inputMode="email" autoComplete="email" className={fieldClass} onFocus={markStarted} />
         </label>
         <label className="block">
           <span className="text-sm font-medium">Service address</span>
@@ -196,15 +196,20 @@ export function QuoteForm({ compact = false }: { compact?: boolean }) {
           ref={fileRef}
           name="photos-ui"
           type="file"
-          accept="image/*"
           multiple
           className={fieldClass}
           onChange={(event) => {
             markStarted();
-            const next = Array.from(event.target.files ?? []).slice(0, MAX_FILES);
+            const picked = Array.from(event.target.files ?? []).filter(
+              (file) =>
+                file.type.startsWith("image/") ||
+                /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name),
+            );
+            const next = picked.slice(0, MAX_FILES);
             const tooBig = next.filter((file) => file.size > MAX_FILE_MB * 1024 * 1024);
             if (tooBig.length) {
               setError(`Please keep photos under ${MAX_FILE_MB}MB each.`);
+              event.target.value = "";
               return;
             }
             setFiles(next);
@@ -225,6 +230,7 @@ export function QuoteForm({ compact = false }: { compact?: boolean }) {
       ) : null}
       <button
         type="submit"
+        formNoValidate
         disabled={status === "submitting"}
         className="inline-flex min-h-14 items-center justify-center rounded-md bg-brand px-6 font-display text-base uppercase tracking-[0.08em] text-white hover:bg-brand-deep disabled:opacity-70"
       >
